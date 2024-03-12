@@ -36,67 +36,70 @@ const signup = async (req, res) => {
   }
 };
 
-// const signin = async (req, res) => {
-//   try {
-//     const { username, password } = req.body;
+const signin = async (req, res) => {
+  try {
+    const { username, password } = req.body;
 
-//     const user = await userModel.findOne({ username }).select("username password salt id displayName");
+    const user = await userModel.findOne({ username }).select("username password salt id displayName");
 
-//     if (!user) return responseHandler.badrequest(res, "User not exist");
+    if (!user) return responseHandler.badrequest(res, "User not exist");
 
-//     if (!user.validPassword(password)) return responseHandler.badrequest(res, "Wrong password");
+    if (!user.validPassword(password)) return responseHandler.badrequest(res, "Wrong password");
 
-//     const token = jwt.sign(
-//       { data: user.id },
-//       process.env.TOKEN_SECRET,
-//       { expiresIn: "24h" }
-//     );
+    const token = jwt.sign(
+      { data: user.id },
+      process.env.TOKEN_SECRET,
+      { expiresIn: "24h" }
+    );
 
-//     user.password = undefined;
-//     user.salt = undefined;
+    user.password = undefined;
+    user.salt = undefined;
 
-//     responseHandler.created(res, {
-//       token,
-//       ...user._doc,
-//       id: user.id
-//     });
-//   } catch {
-//     responseHandler.error(res);
-//   }
-// };
+    responseHandler.created(res, {
+      token,
+      ...user._doc,
+      id: user.id
+    });
+  } catch {
+    responseHandler.error(res);
+  }
+};
 
-// const updatePassword = async (req, res) => {
-//   try {
-//     const { password, newPassword } = req.body;
+const updatePassword = async (req, res) => {
+  try {
+    const { password, newPassword } = req.body;
 
-//     const user = await userModel.findById(req.user.id).select("password id salt");
+    const user = await userModel.findById(req.user.id).select("password id salt");
 
-//     if (!user) return responseHandler.unauthorize(res);
+    if (!user) return responseHandler.unauthorize(res);
 
-//     if (!user.validPassword(password)) return responseHandler.badrequest(res, "Wrong password");
+    if (!user.validPassword(password)) return responseHandler.badrequest(res, "Wrong password");
 
-//     user.setPassword(newPassword);
+    user.setPassword(newPassword);
 
-//     await user.save();
+    await user.save();
 
-//     responseHandler.ok(res);
-//   } catch {
-//     responseHandler.error(res);
-//   }
-// };
+    responseHandler.ok(res,"Password updated");
+  } catch {
+    responseHandler.error(res);
+  }
+};
 
-// const getInfo = async (req, res) => {
-//   try {
-//     const user = await userModel.findById(req.user.id);
+const getInfo = async (req, res) => {
+  try {
+    const user = await userModel.findById(req.user.id);
 
-//     if (!user) return responseHandler.notfound(res);
+    if (!user) return responseHandler.notfound(res);
 
-//     responseHandler.ok(res, user);
-//   } catch {
-//     responseHandler.error(res);
-//   }
-// };
+    responseHandler.ok(res, user);
+  } catch {
+    responseHandler.error(res);
+  }
+};
 
 module.exports = {
-    signup
+    signup,
+    signin,
+    updatePassword,
+    getInfo
 }
