@@ -1,6 +1,5 @@
-import { ThemeProvider } from "@mui/material/styles";
-import { useSelector } from "react-redux";
-import themeConfigs from "./configs/themeConfigs";
+import { ThemeProvider, useTheme } from "@mui/material/styles";
+
 import { ToastContainer } from "react-toastify";
 import CssBaseline from "@mui/material/CssBaseline";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -14,10 +13,10 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 const App = () => {
-  const { themeMode } = useSelector((state) => state.themeMode);
+  const theme = useTheme()
 
   return (
-    <ThemeProvider theme={themeConfigs.custom({ mode: themeMode })}>
+    <ThemeProvider theme={theme}>
       {/* config toastify */}
       <ToastContainer
         position="bottom-left"
@@ -27,7 +26,7 @@ const App = () => {
         closeOnClick
         pauseOnFocusLoss
         pauseOnHover
-        theme={themeMode}
+        theme={theme}
       />
       {/* mui reset css */}
       <CssBaseline />

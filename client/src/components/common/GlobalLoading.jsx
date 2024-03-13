@@ -1,28 +1,14 @@
-import { useSelector } from "react-redux";
+
 import { Paper, Box, LinearProgress, Toolbar } from "@mui/material";
 import { useEffect, useState } from "react";
-// import Logo from "./Logo";
+import Logo from "./Logo";
 
 const GlobalLoading = () => {
-  const { globalLoading } = useSelector((state) => state.globalLoading);
-
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    if (globalLoading) {
-      setIsLoading(true);
-    } else {
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1000);
-    }
-  }, [globalLoading]);
-
 
   return (
     <>
       <Paper sx={{
-        opacity: isLoading ? 1 : 0,
+        // opacity: isLoading ? 1 : 0,
         pointerEvents: "none",
         transition: "all .3s ease",
         position: "fixed",
@@ -31,7 +17,7 @@ const GlobalLoading = () => {
         zIndex: 999
       }}>
         <Toolbar />
-        <LinearProgress />
+        {/* <LinearProgress /> */}
         <Box sx={{
           position: "absolute",
           top: "50%",
